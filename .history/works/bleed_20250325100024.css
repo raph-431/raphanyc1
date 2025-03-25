@@ -1,0 +1,10 @@
+body {
+    background-color: #FF3333;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    /* Add this line to ensure full height */
+    display: flex;
+    justify-content: center;
+    align-items: bottom;
+}
