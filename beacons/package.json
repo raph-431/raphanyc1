@@ -1,0 +1,8 @@
+{
+    "parcelIgnore": [
+        "https://.+"
+    ],
+    "devDependencies": {
+        "parcel-resolver-ignore": "^2.2.0"
+    }
+}

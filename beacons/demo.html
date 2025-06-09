@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>b-e-a-c-o-n-s</title>
+    <meta charset="utf-8" />
+    <style>
+      @import "./styles.css?inline";
+    </style>
+    <script type="importmap">
+          {
+            "imports": {
+              "three": "https://cdn.jsdelivr.net/npm/three@0.174.0/build/three.module.js",
+              "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.174.0/examples/jsm/"
+            }
+          }
+    </script>
+  </head>
+  <body>
+    <canvas class="webgl"></canvas>
+    <pre id="debug"
+      style="position: fixed; bottom: 0; left: 0;  color: rgba(0, 255, 0, 0.7); padding: 10px; font-family: monospace; z-index: 999;">
+    sync panel
+    </pre>
+      <div id="help-panel" >
+        a: audio stream<br>
+        i: zoom in<br>
+        o: zoom out<br>
+        d: dark mode<br>
+        g: anaglyph filter<br>
+        b: background stars filter<br>
+        s: download capture<br>
+        f: fullscreen<br>
+        h: help panel<br>
+      </div>
+      <div id="loading-panel" >
+        acquiring signal <br>
+        <small>--- please wait ---</small>
+      </div>
+      <div id="info-panel">
+          <div class="label">monitoring: </div><div class='value' id='mode'> </div>
+        </div>
+        </body>
+    <script type="module">
+      import './index.js?inline'
+      </script>
+</script>
+
+<!-- <script type="module" src="./index.js?inline"></script>  -->
+
+</html>
+

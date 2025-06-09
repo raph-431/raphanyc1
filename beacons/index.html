@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>b-e-a-c-o-n-s // e-x-p-l-o-r-e-r</title>
+    <meta charset="utf-8" />
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: black;
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: url('codebackground.gif');
+            background-size: 1000px;
+            background-position: center;
+            /* background-repeat: no-repeat; */
+        }
+
+        iframe {
+            border: none;
+            width: 600px;
+            height: 600px;
+            position: absolute;
+            top: 130px;
+            /* left: 100px; */
+        }
+
+        button {
+            margin: 10px;
+            padding: 8px 12px;
+            font-size: 16px;
+            position: absolute;
+            top: 30px;
+            /* left: 100px; */
+        }
+
+        #mint-button {
+            position: absolute;
+            top: 770px;
+            /* left: 100px; */
+        }
+    </style>
+</head>
+
+<body>
+    <button onclick="reloadFrame()">explore another beacon</button>
+    <iframe id="demo-frame" src="demo.html"></iframe>
+    <button id="mint-button" onclick="window.location.href='https://gamma.io/ordinals/collections/beacons'">go to mint page</button>
+    <script>
+        function reloadFrame() {
+            const frame = document.getElementById('demo-frame');
+            frame.src = frame.src;  // reloads the iframe
+        }
+    </script>
+</body>
+
+</html>

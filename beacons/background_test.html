@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Three.js Star Environment Map with OrbitControls</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Load three.js from a CDN -->
+    <script src="https://unpkg.com/three@0.150.1/build/three.min.js"></script>
+    <!-- Load OrbitControls -->
+    <script src="https://unpkg.com/three@0.150.1/examples/js/controls/OrbitControls.js"></script>
+    <script>
+        // 1. Create an offscreen canvas to generate the equirectangular star field
+        const envWidth = 4096;
+        const envHeight = 2048;
+        const starCanvas = document.createElement('canvas');
+        starCanvas.width = envWidth;
+        starCanvas.height = envHeight;
+        const ctx = starCanvas.getContext('2d');
+        // Fill the canvases with black (space)
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 0, envWidth, envHeight);
+
+        // 2. Parameters for star generation
+        const numStars = 300000;
+        const L_min = 0.2;  // minimum brightness
+        const L_max = 0.8;  // maximum brightness
+        const alpha = 6.2;    // power-law exponent ; somewhere between 5 and 7
+
+        // Sample brightness from a power-law distribution using inverse transform sampling
+        function sampleBrightness() {
+            const u = Math.random();
+            const brightness = Math.pow(
+                u * (Math.pow(L_max, 1 - alpha) - Math.pow(L_min, 1 - alpha)) + Math.pow(L_min, 1 - alpha),
+                1 / (1 - alpha)
+            );
+            return brightness;
+        }
+
+        // 3. Draw each star on the canvas
+        for (let i = 0; i < numStars; i++) {
+            // Uniformly sample spherical coordinates:
+            const u = Math.random();
+            const v = Math.random();
+            const phi = 2 * Math.PI * u;           // azimuth angle in [0, 2π)
+            const theta = Math.acos(2 * v - 1);      // polar angle
+
+            // Map spherical (θ, φ) to equirectangular UV coordinates:
+            const U = phi / (2 * Math.PI);  // horizontal coordinate [0,1]
+            const V = theta / Math.PI;      // vertical coordinate [0,1]
+
+            // Convert UV to pixel coordinates
+            const x = U * envWidth;
+            const y = V * envHeight;
+
+            // Sample star brightness
+            const brightness = sampleBrightness(); // Value between L_min and L_max
+
+            let starType = Math.random();
+            let hue, sat, light;
+            if (starType < 0.33) {
+                // Bluish tint: base hue around 210° ±10°
+                hue = 210 + (Math.random() * 20 - 10);
+                sat = 80 + (Math.random() * 20);
+            } else if (starType < 0.66) {
+                // Reddish tint: base hue around 0° ±10°
+                hue = 0 + (Math.random() * 20 - 10);
+                sat = 80 + (Math.random() * 20);
+            } else {
+                // Yellowish tint: base hue around 60° ±10°
+                hue = 60 + (Math.random() * 20 - 10);
+                sat = 60 + (Math.random() * 20);
+            }
+            // sat = 85;   // very low saturation for subtle color
+            light = 93; // high lightness keeps the color near white
+
+            // Draw the star as a small circle
+            const starSize = 1.5;
+            ctx.fillStyle = `hsla(${hue}, ${sat}%, ${light}%, ${brightness})`;
+            ctx.beginPath();
+            ctx.arc(x, y, starSize*brightness, 0, Math.PI * 2);
+            ctx.fill();
+            const haloBrightness = 0.5* brightness;
+            ctx.fillStyle = `hsla(${hue}, ${sat}%, ${light}%, ${haloBrightness})`;
+            ctx.beginPath();
+            ctx.arc(x, y, starSize * brightness*2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // 4. Create a three.js texture from the canvas and set it as an environment map
+        const texture = new THREE.CanvasTexture(starCanvas);
+        const texture2 = new THREE.CanvasTexture(starCanvas);
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        
+        texture2.mapping = THREE.EquirectangularReflectionMapping;
+
+        // 5. Set up the three.js scene
+        const scene = new THREE.Scene();
+        // scene.background = texture;  // Use the star field as the background
+
+        // Optionally, add a reflective sphere to see the environment mapping effect
+        // const geometry = new THREE.SphereGeometry(2, 32, 32);
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshStandardMaterial({
+            metalness: 1,
+            roughness: 0,
+            envMap: texture2,
+            envMapIntensity: 3.5
+        });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+
+        // add background plane
+        const backgroundPlane = new THREE.Mesh(
+            new THREE.PlaneGeometry(100, 50),
+            new THREE.MeshBasicMaterial({ map: texture })
+        );
+            texture.repeat.set(1, 1);
+        backgroundPlane.position.set(0, 0, -10);
+        scene.add(backgroundPlane);
+
+        // Add lighting
+        // const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        // scene.add(ambientLight);
+        // const directionalLight = new THREE.DirectionalLight(0xffffff, .01);
+        // directionalLight.position.set(5, 10, 7.5);
+        // scene.add(directionalLight);
+
+        // Set up the camera
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.z = 5;
+
+        // Set up the renderer
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+    // const pmremGenerator = new THREE.PMREMGenerator(renderer);
+    // const envMap = pmremGenerator.fromEquirectangular(texture2).texture;
+    // // scene.environment = envMap;
+    // material.envMap = envMap;
+
+
+        // renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        //     renderer.toneMappingExposure = 3.0;
+
+        // 6. Add OrbitControls
+        // const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        // controls.enableDamping = true;
+        // controls.dampingFactor = 0.05;
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            // controls.update();  // update OrbitControls damping
+            sphere.rotation.y += 0.001;
+            sphere.rotation.x += 0.0003;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Handle window resizing
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+
+</html>
