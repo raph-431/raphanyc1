@@ -110,14 +110,65 @@
             justify-content: center;
             margin-top: 10px;
         }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .gallery-item a {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            text-decoration: none;
+        }
+
+        .gallery-caption {
+            text-align: center;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 14px;
+        }
+
+        .gallery-title {
+            text-align: center;
+            font-size: 24px;
+            margin: 40px 0 20px;
+            background-color: rgb(92, 92, 92);
+            padding: 10px;
+        }
     </style>
 </head>
 
 <body>
     <br>
-    <div style="text-align: center; font-size: 18px;"><strong> b-e-a-c-o-n-s </strong></div>
+    <div style="text-align: center; font-size: 24px; padding: 10 px"><strong> b-e-a-c-o-n-s </strong></div>
     <br>
-    <div style="text-align: center; font-size: 18px;background-color: rgb(92, 92, 92);">
+    <div style="text-align: center; font-size: 24px;background-color: rgb(92, 92, 92); padding: 10px;">
         -- a generative art project on the bitcoin blockchain --
 
     </div>
@@ -136,16 +187,16 @@
         I-b - A device emitting light, radio or sound pulses to guide travelers along a route. <br>
         II - A person or thing that inspires, directs, or offers hope.<br></div>
     <br><br>
-        <div style="text-align: center; font-size: 18px; background-color: rgb(92, 92, 92); "> -- explore the universe of beacons -- </div>
+        <!-- <div style="text-align: center; font-size: 18px; background-color: rgb(92, 92, 92); "> -- explore the universe of beacons -- </div>
     <br>
     <div style="text-align: center; font-size: 16px;  "> keyboard controls disabled except zoom (i)n / (o)ut 
         <br> click and drag enabled <br>
-    </div>
-    <br><br>  
+    </div> -->
+    <!-- <br><br>   -->
     
-    <iframe id="demo-frame" src="beacons/demo.html"></iframe>
+    <!-- <iframe id="demo-frame" src="beacons/demo.html"></iframe> -->
     <div class="button-controls">
-        <button onclick="reloadFrame()">explore another beacon</button>
+        <!-- <button onclick="reloadFrame()">explore another beacon</button> -->
         <button id="mint-button" onclick="window.location.href='https://gamma.io/ordinals/collections/beacons'">go to mint page</button>
     </div>
     <br><br>
@@ -173,6 +224,53 @@
                 button.textContent = 'play';
             }
         }
+
+        // Array of ordinal data
+        const ordinalData = [
+           { id: '778f6ce148a69e3bf9c00e9e2625f09d72fb1c35ab7d8ebb78469524d7659b36i0', number: 1 }, { id: '8240d04bdfaaa6c469928f14b37078e8bc191eb43b976afb0d7b88afc9ef93f6i0', number: 2 }, { id: '05939608b640f9fed4398176607f026c63cb4b570acd3bd925f744f81c2f6e55i0', number: 3 }, { id: 'ef69c82c6d0c22580219252738ab643711015aa25a2d1372ecd27b9907ee4533i0', number: 4 }, { id: 'e1adf2f5886aee8ad81f1675736bb608b6bccefa9afc4f32735a09399cb68918i0', number: 5 }, { id: '9dd4ec60d0db313691aad630a36a9e4e79736c7b8766c3afb31df72ae6ac68d7i0', number: 6 }, { id: 'f425b8121ff321c4cc4e68a71b77649fac991e4ebac50c58b48e1ce64a290b45i0', number: 7 }, { id: '83ba679f8fa65502ea93f60bef38c216e03d294d8c779d637ba442ae1ff3424bi0', number: 8 }, { id: 'aefd162e9b27080a25383f8287e8208f575f5c082c2700d03a4c3a1faa13cb59i0', number: 9 }, { id: 'ed9aa9283dc9d838b3a8f42b3ad18a16d62140bfac4239043bf4ea81d65aa8cbi0', number: 10 }, { id: '95390a062bc87a069895a7edd74012d77b8d8913a45bc3b5a6ab53c7c130020ci0', number: 11 }, { id: 'b6f4a044aa1d090be2ee70aec70d0ad3bedd5d92d6cfa9a9ef2307436dbe2d8ci0', number: 12 }, { id: 'b6f4a044aa1d090be2ee70aec70d0ad3bedd5d92d6cfa9a9ef2307436dbe2d8ci1', number: 13 }, { id: 'b6f4a044aa1d090be2ee70aec70d0ad3bedd5d92d6cfa9a9ef2307436dbe2d8ci2', number: 14 }, { id: '4e4a1d082bf9f3da8c18011b2978c654accc741d452d7f5bbd1521e7a5268bdei0', number: 15 }, { id: 'bd816140d82fba818a3a312990ea9ce77ee79627bd303527d2f58dbc18c54b27i0', number: 16 }, { id: 'bd816140d82fba818a3a312990ea9ce77ee79627bd303527d2f58dbc18c54b27i1', number: 17 }, { id: '1f6c3eb5a231e8c0603718d014db5a02bc73f1e574e6d53776340c9ba1e5aa36i0', number: 18 }, { id: 'ffe8777a46660ff33ac311f0a3f76e65a721bc303636058ddd782dc69a2c47f4i0', number: 19 }, { id: '6b3e08c223e0c3a2cebcb583e84573aaedcb0c2b1f094559584649f8edc64594i0', number: 20 }, { id: 'bee2748c13a82ac1e4fbc0d10d32bd82737754935ce8a1d450e6497bf0bb0e6ai0', number: 21 }, { id: 'e7e4747545d4e052dd918b060bac6b26b8cd11fef28b2bafe354def684c2b105i0', number: 22 }, { id: 'e7e4747545d4e052dd918b060bac6b26b8cd11fef28b2bafe354def684c2b105i1', number: 23 }, { id: 'c0ae15cdf1c05d925927c22012de67c7f3da8bce4f06dae2272225dc5a8ab7ddi0', number: 24 }, { id: '7de2f3636f36a5b1acb31a9589c24c68ab0497d2615b2bc9e3722ec0b6f81a58i0', number: 25 }, { id: '69cda42cbfea9a6340e41a565171a8917817c7c271db11b6aac85f1d3fa02973i0', number: 26 }, { id: '79eb9fabfc5ec35de2e1ff012655243d45166b4ad3fc0c95d3643ecc34506df6i0', number: 27 }, { id: '86650ccaa71b385202f9764403bc02085d26b74b293b2da6e5a4a2b27fd1e75ei0', number: 28 }, { id: '271f767c239539c51d815f64ff2d131c39e6ed7169a1fbcc3c6661bc4ab1c839i0', number: 29 }, { id: '2f639bf57e7a491edd6b835db7b0b92fef9057ac9db55d99acda747a67849ae4i0', number: 30 }, { id: '5691675fc3119c5a57a1dfca09ae8a14a8241da80182e059db20f24ebf581815i0', number: 31 }, { id: 'a033aff1b22b7da1082cb35dab6dec0c9102d0c3047d00feaa364d69d02c1221i0', number: 32 }, { id: 'a033aff1b22b7da1082cb35dab6dec0c9102d0c3047d00feaa364d69d02c1221i1', number: 33 }, { id: '1146bc2ca8995341497c50cf748aad629f733156a4d0697f812ce017c52ef944i0', number: 34 }, { id: '9d3e7232e667d76169b16d0b1392c5f1ac4e9c754b30e1a82de79ba6bfe2aa18i0', number: 35 }, { id: 'a49ba3ea5308c7f690b72634b0287cc66514683dc20097a95f1dc151e93c441ei0', number: 36 }, { id: '9ea146e9cbf18d60300c53bf6410e4d7b0a92fe471f19cbca9825992b02f7802i0', number: 37 },
+{id: '564ac100c98d4d5e4af5487fe3a0cf15a25d8f1ba9489d5946afb703af257d4fi0', number:38}, { id: '564ac100c98d4d5e4af5487fe3a0cf15a25d8f1ba9489d5946afb703af257d4fi1' , number: 39 } , { id: 'af2739b975b00365748c7d1a7d2fadd0f8eafe630b5326e4409268262ef28ee7i0', number: 40 }, { id: '044782fa4288cf885a33453b55b8935aa0e95dd4d6e60bbe88bb988078460c20i0', number: 41 }, { id: '8370df90e94383b823decf5eacddbbc8e5fe27d7eab811d7285646ed36bc8835i0', number: 42 }, { id:'8370df90e94383b823decf5eacddbbc8e5fe27d7eab811d7285646ed36bc8835i1' , number: 43 }, { id: '80ea9500e9061e52ba57486a7f86cd062f27a771b9982d91f4901dd9281c934bi0' , number: 44 }
+            // Add more ordinals here
+        ];
+
+        function createGallery() {
+            const galleryContainer = document.createElement('div');
+            galleryContainer.className = 'gallery';
+
+            ordinalData.forEach(ordinal => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+
+                const img = document.createElement('img');
+                img.src = `./previews/beacon${ordinal.number}.png`;
+                img.alt = `Beacon #${ordinal.number}`;
+
+                const link = document.createElement('a');
+                link.href = `https://ordinals.com/content/${ordinal.id}`;
+                link.target = '_blank';
+
+                const caption = document.createElement('div');
+                caption.className = 'gallery-caption';
+                caption.textContent = `#${ordinal.number}`;
+
+                galleryItem.appendChild(img);
+                galleryItem.appendChild(link);
+                galleryItem.appendChild(caption);
+                galleryContainer.appendChild(galleryItem);
+            });
+
+            // Add gallery title
+            const title = document.createElement('div');
+            title.className = 'gallery-title';
+            title.textContent = '-- all beacons discovered so far --';
+
+            // Insert gallery after the button controls
+            const buttonControls = document.querySelector('.button-controls');
+            buttonControls.parentNode.insertBefore(title, buttonControls.nextSibling);
+            buttonControls.parentNode.insertBefore(galleryContainer, title.nextSibling);
+        }
+
+        // Create gallery when page loads
+        window.addEventListener('load', createGallery);
     </script>
 </body>
 
